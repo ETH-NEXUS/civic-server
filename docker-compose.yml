@@ -6,7 +6,6 @@ volumes:
 services:
   civicDB:
     image: postgres:11-alpine
-    container_name: civic-db
     volumes:
     - pg_db:/var/lib/postgresql/data
     restart: always
@@ -24,7 +23,6 @@ services:
   civic-server:
     build: .
     image: nexus-civic-server
-    container_name: nexus-civic-server
     #volumes:
     environment:
     - DATABASE_HOST=civicDB
