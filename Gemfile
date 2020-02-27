@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 gem 'rails', '~> 5.2.3'
 
+gem 'puma', '~> 4.3.1'
+
 gem 'pg', '~> 0.18.2'
 gem 'sassc-rails', '~> 2.1.2'
 gem 'uglifier', '>= 1.3.0'

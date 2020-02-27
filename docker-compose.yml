@@ -31,8 +31,12 @@ services:
     - PGHOST=civicDB
     - PGUSER=${POSTGRES_USER}
     - PGPASSWORD=${POSTGRES_PASSWORD}
+    - DB_TIMEOUT_SECS=10000
+    - RAILS_WORKERS=4
+    - RAILS_MIN_THREADS=8
+    - RAILS_MAX_THREADS=32
     ports:
     - "3000:3000"
-    command: rails s -b 0.0.0.0
+    command: puma -b tcp://0.0.0.0:3000
     depends_on:
     - civicDB
