@@ -1,0 +1,40 @@
+version: '3.1'
+
+volumes:
+  pg_db:
+
+services:
+  civicDB:
+    image: postgres:11-alpine
+    container_name: civic-db
+    volumes:
+    - pg_db:/var/lib/postgresql/data
+    restart: always
+    environment:
+    - POSTGRES_USER
+    - POSTGRES_PASSWORD
+    - PGUSER=${POSTGRES_USER}
+    - PGPASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  civic-server:
+    build: .
+    image: nexus-civic-server
+    container_name: nexus-civic-server
+    #volumes:
+    environment:
+    - DATABASE_HOST=civicDB
+    - DATABASE_USERNAME=${POSTGRES_USER}
+    - DATABASE_PASSWORD=${POSTGRES_PASSWORD}
+    - PGHOST=civicDB
+    - PGUSER=${POSTGRES_USER}
+    - PGPASSWORD=${POSTGRES_PASSWORD}
+    ports:
+    - "3000:3000"
+    command: rails s -b 0.0.0.0
+    depends_on:
+    - civicDB

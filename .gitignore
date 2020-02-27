@@ -24,3 +24,6 @@ tmp/
 
 # Ignore data dumps in dev environment
 db/*.sql
+
+# ignore local credentials
+/.env
