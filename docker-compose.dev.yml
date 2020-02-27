@@ -1,0 +1,19 @@
+version: '3.1'
+
+# extends docker-compose.yml, should be used like so:
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml "$@"
+
+# note also that this should be run specifically on civic.nexus.ethz.ch
+
+services:
+    httpd-proxy:
+      image: httpd:2.4.29
+      volumes:
+      - $PWD/docker/httpd_proxy/nexus_civic_httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - /etc/pki/tls/private/privkey.pem:/etc/ssl/nexus_https/key.key:ro
+      - /etc/pki/tls/certs/civic.nexus.ethz.ch.crt.pem:/etc/ssl/nexus_https/cert.crt:ro
+      - /etc/pki/tls/certs/civic.nexus.ethz.ch.chain.crt.pem:/etc/ssl/nexus_https/cert_chain.pem:ro
+      ports:
+      - "80:80"
+      - "443:443"
+      restart: always
