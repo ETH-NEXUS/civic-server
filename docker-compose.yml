@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.5'
 
 volumes:
   pg_db:
@@ -8,7 +8,9 @@ services:
     image: postgres:11-alpine
     volumes:
     - pg_db:/var/lib/postgresql/data
+    - ./docker/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     restart: always
+    shm_size: '4gb'
     environment:
     - POSTGRES_USER
     - POSTGRES_PASSWORD
@@ -31,7 +33,7 @@ services:
     - PGHOST=civicDB
     - PGUSER=${POSTGRES_USER}
     - PGPASSWORD=${POSTGRES_PASSWORD}
-    - DB_TIMEOUT_SECS=10000
+    - DB_TIMEOUT_SECS=60000
     - RAILS_WORKERS=4
     - RAILS_MIN_THREADS=8
     - RAILS_MAX_THREADS=32
